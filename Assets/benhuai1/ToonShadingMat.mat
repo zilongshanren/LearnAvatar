@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BenHuaiFace
-  m_Shader: {fileID: 4800000, guid: a76a7d416adf14bbd8348913197f9f32, type: 3}
+  m_Name: ToonShadingMat
+  m_Shader: {fileID: 4800000, guid: 1eb24d5e04deb4f97a8e2cb0181896e4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,12 +38,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _IlmTex:
-        m_Texture: {fileID: 2800000, guid: 76ad5d19b802a433d9d52d777469e23b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 470fe0c1cc9a24545be0a1dc4b9d43fb, type: 3}
+        m_Texture: {fileID: 2800000, guid: eb7f227f614884cff9ee883fb0122847, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -58,35 +54,31 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 17
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.008
+    - _Outline: 0.006
     - _Parallax: 0.02
-    - _RimAmount: 0.081
-    - _RimThreshold: 6.83
-    - _ShadeEdge0: 0.898
-    - _ShadeEdge1: 0.943
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpecularRange: 0.529
+    - _SpecularScale: 0.0046
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WrapDiffuse: 0.5
     - _ZWrite: 1
     m_Colors:
-    - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmisstionColor: {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 0}
-    - _OutlineColor: {r: 0.7921569, g: 0.654902, b: 0.654902, a: 1}
-    - _RimColor: {r: 0.86764705, g: 0.58055794, b: 0.58055794, a: 1}
-    - _SpecularColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    - _OutlineColor: {r: 0.7941176, g: 0.47880623, b: 0.47880623, a: 1}
+    - _Specular: {r: 1, g: 1, b: 1, a: 1}

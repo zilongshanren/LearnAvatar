@@ -85,14 +85,14 @@ Shader "Zilong/ToonShading"
 			Tags { "LightMode"="ForwardBase" }
 			
 			Cull off
-		
+			
 			CGPROGRAM
-		
+			
 			#pragma vertex vert
 			#pragma fragment frag
 			
 			#pragma multi_compile_fwdbase
-		
+			
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
 			#include "AutoLight.cginc"
@@ -104,14 +104,14 @@ Shader "Zilong/ToonShading"
 			sampler2D _Ramp;
 			fixed4 _Specular;
 			fixed _SpecularScale;
-		
+			
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 texcoord : TEXCOORD0;
 				float4 tangent : TANGENT;
 			}; 
-		
+			
 			struct v2f {
 				float4 pos : POSITION;
 				float2 uv : TEXCOORD0;
@@ -157,7 +157,7 @@ Shader "Zilong/ToonShading"
 				
 				return fixed4(ambient + diffuse + specular, 1.0);
 			}
-		
+			
 			ENDCG
 		}
 	}
