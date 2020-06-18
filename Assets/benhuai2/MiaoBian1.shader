@@ -19,7 +19,6 @@
 
 		Pass
 		{
-			name "OUTLINE"
 			Tags {
 				"LightMode" = "ForwardBase"
 			}

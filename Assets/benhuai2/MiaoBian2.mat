@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: MiaoBian2
-  m_Shader: {fileID: 4800000, guid: 4a0812090bec6f74bbeb8c8396445a4b, type: 3}
+  m_Shader: {fileID: 4800000, guid: 4a6cc03bec4798745a5c531229d8b3d5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -69,7 +69,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.103
+    - _Outline: 0.433
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

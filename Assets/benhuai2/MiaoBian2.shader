@@ -19,7 +19,6 @@
 
 		Pass
 		{
-			name "OUTLINE"
 			Tags {
 				"LightMode" = "ForwardBase"
 			}
@@ -40,6 +39,7 @@
 				float4 vertex : POSITION;
 				float4 vertColor: Color;
 				float3 normal : NORMAL;
+				float4 tangent : TANGENT;
 			};
 
 			struct v2f
@@ -53,21 +53,24 @@
 			v2f vert (appdata v)
 			{
 				v2f o;
+				UNITY_INITIALIZE_OUTPUT(v2f, o);
+				float4 pos = UnityObjectToClipPos(v.vertex);
+				float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.tangent.xyz);
 
-				//calculate in clip space
-				o.pos = UnityObjectToClipPos(v.vertex.xyz);
-				float3 normal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
-				float2 offset = TransformViewToProjection(normal.xy);
-				o.pos.xy += offset * o.pos.z * _Outline;
+				float3 ndcNormal = normalize(TransformViewToProjection(viewNormal.xyz)) * pos.w;//将法线变换到NDC空间
 
-				//calculate in view space
-				// float4 pos = mul(UNITY_MATRIX_MV, v.vertex);
-				// float3 normal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
-				// normal.z = -0.2; //防止内凹模型背面遮挡正面
-				// pos = pos + float4(normalize(normal), 0) * _Outline;
-				// o.pos = mul(UNITY_MATRIX_P, pos);
+				float4 nearUpperRight = mul(unity_CameraInvProjection, float4(1, 1, UNITY_NEAR_CLIP_VALUE, _ProjectionParams.y)); //将近裁剪面右上角位置的顶点变换到观察空间
 
+				float aspect = abs(nearUpperRight.y / nearUpperRight.x);//求得屏幕宽高比
+
+				ndcNormal.x *= aspect;
+
+				pos.xy += 0.01 * _Outline * ndcNormal.xy;
+
+				o.pos = pos;
 				return o;
+
+				
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
@@ -129,7 +132,7 @@
 			}
 			
 			float4 frag(v2f i) : SV_Target { 
-			
+				
 				
 				return fixed4(1.0, 1.0, 1.0, 1.0);
 			}
