@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: MiaoBian2
+  m_Name: MiaoBian2-body
   m_Shader: {fileID: 4800000, guid: 4a6cc03bec4798745a5c531229d8b3d5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -39,11 +39,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LightTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 377843cc85b40ff4cb0bd465a19a98ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b9778c85d792e7043952eca4ce4e8e25, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -64,21 +64,30 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 227
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Outline: 0.433
     - _Parallax: 0.02
+    - _RimAmount: 0.233
+    - _RimThreshold: 4.05
+    - _ShadeEdge0: 0.597
+    - _ShadeEdge1: 0.7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularRange: 0.672
     - _SpecularScale: 0.01
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WrapDiffuse: 0.748
     - _ZWrite: 1
     m_Colors:
+    - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
