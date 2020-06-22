@@ -159,7 +159,7 @@ Shader "zilong/Hair"
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				fixed4 albedo = tex2D(_MainTex, i.uv);
+				fixed4 albedo = tex2D(_MainTex, i.uv.xy);
 				half3 diffuseColor = albedo.rgb * _MainColor.rgb;
 
 				
@@ -179,6 +179,10 @@ Shader "zilong/Hair"
 				half shiftTex = spec.g;
 				half3 t1 = ShiftTangent(worldBinormal, worldNormal, _PrimaryShift + shiftTex);
 				half3 spec1 = StrandSpecular(t1, worldViewDir, worldLightDir, _SpecularMultiplier)* _SpecularColor;
+
+				//高光未偏移
+				// half3 spec1 = StrandSpecular(worldBinormal, worldViewDir, worldLightDir, _SpecularMultiplier)* _SpecularColor;
+
 
 				half3 t2 = ShiftTangent(worldBinormal, worldNormal, _SecondaryShift + shiftTex);
 				half3 spec2 = StrandSpecular(t2, worldViewDir, worldLightDir, _SpecularMultiplier2)* _SpecularColor2;
