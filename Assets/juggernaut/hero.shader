@@ -5,17 +5,23 @@
 
 Shader "zilong/hero"
 {
-Properties
+	Properties
 	{
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)
 		_MainTex ("Main Tex", 2D) = "white" {}
 
 		_NormalMap ("Normal Map", 2D) = "white" {}
 
+		_EmissionMap ("Emission Map", 2D) = "white" {}
+
+		_RimMaskTex ("Rim Mask", 2D) = "white" {}
+
 		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
 
 		_SpecularSizeTex("SpecularSizeTex", 2D) = "white" {}
 		_SpecularAreaTex("SpecularAreaTex", 2D) = "white" {}
+
+		_EmissionScale("Emission Scale", float) = 0.5
 
 
 		_WrapDiffuse("WrapDiffuse",  Range(0, 1)) = 0.5
@@ -29,6 +35,11 @@ Properties
 		[HDR]_RimColor("Rim Color", Color) = (1,1,1,1)
 		_RimAmount("Rim Amount", Range(0, 1)) = 0.042
 		_RimThreshold("Rim Threshold", Range(0, 10)) =6
+
+		[Toggle]_EmissionToggle("Emission Toggle", Int) = 0
+		[Toggle]_SpecularExponentToggle("SpecularExponent Toggle", Int) = 0
+		[Toggle]_SpecularAreaToggle("SpecularArea Toggle", Int) = 0
+		[Toggle]_RimMaskToggle("RimMask Toggle", Int) = 0
 	}
 	SubShader
 	{
@@ -48,6 +59,12 @@ Properties
 			#pragma fragment frag
 			
 			#pragma multi_compile_fwdbase
+
+			#pragma shader_feature  _EMISSIONTOGGLE_ON
+			#pragma shader_feature  _SPECULAREXPONENTTOGGLE_ON
+			#pragma shader_feature  _SPECULARAREATOGGLE_ON
+			#pragma shader_feature  _RIMMASKTOGGLE_ON
+
 			
 			#include "UnityCG.cginc"
 			#include "Lighting.cginc"
@@ -58,6 +75,8 @@ Properties
 			sampler2D _SpecularSizeTex;
 			sampler2D _SpecularAreaTex;
 			sampler2D _NormalMap;
+			sampler2D _EmissionMap;
+			sampler2D _RimMaskTex;
 
 			float4 _MainTex_ST;
 
@@ -73,6 +92,7 @@ Properties
 			float _RimThreshold, _RimAmount;
 			float4 _RimColor;
 			
+			float _EmissionScale;
 			
 			struct a2v {
 				float4 vertex : POSITION;
@@ -116,11 +136,12 @@ Properties
 				// float3 normal = normalize(i.worldNormal);
 				float3x3 TBNMatrixTranspose = float3x3
 				(
-					i.tangentWorld,
-					i.binormalWorld,
-					i.worldNormal
+				i.tangentWorld,
+				i.binormalWorld,
+				i.worldNormal
 				);
 				float3 normal = normalize(mul(norm, TBNMatrixTranspose));
+				// normal = i.worldNormal;
 
 
 				float3 viewDir = normalize(i.viewDir);
@@ -135,25 +156,42 @@ Properties
 
 				half4 diffuse = lerp(_AmbientColor, _LightColor0, shadowStep);
 
-				// float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
-				// float ndoth = dot(normal, halfVector);
-				// float specularIntensity = pow(ndoth, _Glossiness) * tex2D(_SpecularAreaTex, i.uv);
-				// float specularRange = step(_SpecularRange, specularIntensity + tex2D(_SpecularSizeTex, i.uv));
-				// half4 specular = specularRange * _SpecularColor;
+				float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
+				float ndoth = dot(normal, halfVector);
+				// float specularIntensity = pow(ndoth, _Glossiness);
+				#ifdef _SPECULAREXPONENTTOGGLE_ON
+					_Glossiness = tex2D(_SpecularSizeTex, i.uv).a * _Glossiness;
+				#endif
 
-				float rimDot = pow(1 - saturate(dot(viewDir, normal)), _RimThreshold);
-				float rimIntensity = rimDot;
+				float specularIntensity = pow(ndoth, _Glossiness);
+				#ifdef _SPECULARAREATOGGLE_ON
+					_SpecularRange = tex2D(_SpecularAreaTex, i.uv).a;
+				#endif
+				half4 specular = saturate(specularIntensity * _SpecularRange)  * _SpecularColor;
+
+
+
+				float rimDot = pow(1 - saturate(dot(viewDir, normal)  ), _RimThreshold);
+
+				#ifdef _RIMMASKTOGGLE_ON
+					rimDot *= tex2D(_RimMaskTex, i.uv).r;
+				#endif
+
+				float rimIntensity = rimDot ;
 				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
 				half4 rim = rimIntensity * _RimColor;
 
-				// add rim mask
 
+				#ifdef _EMISSIONTOGGLE_ON
+					//add emissioni
+					color += tex2D(_EmissionMap, i.uv) * _EmissionScale;
+				#endif
 				
 				// return  (diffuse + specular) * color;
 				// return diffuse * color;
 				// return rim * color;
-				// return (diffuse + specular + rim) * color;
-				return (diffuse + rim ) * color;
+				return float4((diffuse  + specular + rim) * color.rgb, color.a);
+				
 				// return color;
 			}
 			
