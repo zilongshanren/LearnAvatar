@@ -8,7 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: base
   m_Shader: {fileID: 4800000, guid: abb21abfb6cd76c42a86f0105b17d544, type: 3}
-  m_ShaderKeywords: _EMISSIONTOGGLE_ON _RIMMASKTOGGLE_ON _SPECULARAREATOGGLE_ON _SPECULAREXPONENTTOGGLE_ON
+  m_ShaderKeywords: _EMISSIONTOGGLE_ON _NORMALMAPTOGGLE_ON _RIMMASKTOGGLE_ON _SPECULARAREATOGGLE_ON
+    _SPECULAREXPONENTTOGGLE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -36,6 +37,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailTex:
         m_Texture: {fileID: 2800000, guid: fc8d5b6338b387846b8e4daee857bc7a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DiffuseRampTex:
+        m_Texture: {fileID: 2800000, guid: 9deeaeff7e81dfd4585e61f017654fe3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseWarp:
@@ -90,6 +95,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ReflectMap:
+        m_Texture: {fileID: 8900000, guid: 650d5af0114f04b4287a865ce8106dfd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RimMaskTex:
         m_Texture: {fileID: 2800000, guid: 7abee6aa728d20a40905e169cd82aa20, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -112,7 +121,9 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffuseRampToggle: 0
     - _DstBlend: 0
+    - _EmissionScale: 0.5
     - _EmissionToggle: 1
     - _GlossMapScale: 1
     - _Glossiness: 28.9
@@ -120,16 +131,18 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _NormalAccurate: 1
+    - _NormalMapToggle: 1
     - _OcclusionStrength: 1
     - _Outline: 0.1
     - _Parallax: 0.02
+    - _ReflectToggle: 0
     - _RimAmount: 0.056
     - _RimLightScale: 2
     - _RimMaskToggle: 1
     - _RimThreshold: 7.75
     - _SelfIllumStrength: 0.1
-    - _ShadeEdge0: 0.328
-    - _ShadeEdge1: 0.367
+    - _ShadeEdge0: 0.331
+    - _ShadeEdge1: 0.421
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularAreaToggle: 1
@@ -141,7 +154,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _Wrap: 0.79
-    - _WrapDiffuse: 0.536
+    - _WrapDiffuse: 0.504
     - _ZWrite: 1
     m_Colors:
     - _AmbientColor: {r: 0.44852942, g: 0.42214534, b: 0.42214534, a: 1}

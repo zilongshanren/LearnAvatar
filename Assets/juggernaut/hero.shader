@@ -16,6 +16,10 @@ Shader "zilong/hero"
 
 		_RimMaskTex ("Rim Mask", 2D) = "white" {}
 
+		_ReflectMap ("Reflect Map", CUBE) = "white" {}
+
+		_DiffuseRampTex ("DiffuseRamp", 2D) = "white" {}
+
 		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
 
 		_SpecularSizeTex("SpecularSizeTex", 2D) = "white" {}
@@ -40,6 +44,9 @@ Shader "zilong/hero"
 		[Toggle]_SpecularExponentToggle("SpecularExponent Toggle", Int) = 0
 		[Toggle]_SpecularAreaToggle("SpecularArea Toggle", Int) = 0
 		[Toggle]_RimMaskToggle("RimMask Toggle", Int) = 0
+		[Toggle]_ReflectToggle("Reflect Toggle", Int) = 0
+		[Toggle]_NormalMapToggle("NormalMap Toggle", Int) = 0
+		[Toggle]_DiffuseRampToggle("Diffuse Ramp Texture Toggle", Int) = 0
 	}
 	SubShader
 	{
@@ -64,6 +71,10 @@ Shader "zilong/hero"
 			#pragma shader_feature  _SPECULAREXPONENTTOGGLE_ON
 			#pragma shader_feature  _SPECULARAREATOGGLE_ON
 			#pragma shader_feature  _RIMMASKTOGGLE_ON
+			#pragma shader_feature  _REFLECTTOGGLE_ON
+			#pragma shader_feature  _NORMALMAPTOGGLE_ON
+			#pragma shader_feature  _DIFFUSERAMPTOGGLE_ON
+
 
 			
 			#include "UnityCG.cginc"
@@ -77,6 +88,8 @@ Shader "zilong/hero"
 			sampler2D _NormalMap;
 			sampler2D _EmissionMap;
 			sampler2D _RimMaskTex;
+			samplerCUBE _ReflectMap;
+			sampler2D _DiffuseRampTex;
 
 			float4 _MainTex_ST;
 
@@ -140,11 +153,15 @@ Shader "zilong/hero"
 				i.binormalWorld,
 				i.worldNormal
 				);
-				float3 normal = normalize(mul(norm, TBNMatrixTranspose));
-				// normal = i.worldNormal;
+
+				float3 normal = i.worldNormal;
+				#ifdef _NORMALMAPTOGGLE_ON
+					normal = normalize(mul(norm, TBNMatrixTranspose));
+				#endif
 
 
 				float3 viewDir = normalize(i.viewDir);
+				float3 worldReflect = reflect(viewDir,normal);
 
 				// float ndotl = max(0, dot( normal,  _WorldSpaceLightPos0 ));
 				float ndotl = dot( normal,  _WorldSpaceLightPos0 );
@@ -153,6 +170,11 @@ Shader "zilong/hero"
 				float wrapLambert = (ndotl * _WrapDiffuse + 1 - _WrapDiffuse) ; //+ imgTex.g;
 				float shadow = SHADOW_ATTENUATION(i);
 				float shadowStep = smoothstep(_ShadeEdge0, _ShadeEdge1, wrapLambert * shadow);
+
+				//add ramp texture
+				#ifdef _DIFFUSERAMPTOGGLE_ON
+				shadowStep = tex2D(_DiffuseRampTex, float2(shadowStep, 0.5));
+				#endif
 
 				half4 diffuse = lerp(_AmbientColor, _LightColor0, shadowStep);
 
@@ -186,11 +208,17 @@ Shader "zilong/hero"
 					//add emissioni
 					color += tex2D(_EmissionMap, i.uv) * _EmissionScale;
 				#endif
+
+				half3 lightColor = diffuse + specular + rim;
+
+				#ifdef _REFLECTTOGGLE_ON
+					lightColor += texCUBE(_ReflectMap, worldReflect);
+				#endif
 				
 				// return  (diffuse + specular) * color;
 				// return diffuse * color;
 				// return rim * color;
-				return float4((diffuse  + specular + rim) * color.rgb, color.a);
+				return float4(lightColor * color.rgb, color.a);
 				
 				// return color;
 			}

@@ -186,7 +186,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: ed4c96879bc06ff4a96269a29982850f, type: 2}
     - target: {fileID: 100054, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 13700010, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -222,31 +222,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100060, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100058, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100056, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100052, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100044, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100042, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100046, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13115e63d9647ea449d0ee14ffd5cec0, type: 3}
