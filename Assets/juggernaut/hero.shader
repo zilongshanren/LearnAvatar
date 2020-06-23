@@ -1,18 +1,22 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "BenHuai/MiaoBian2"
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "zilong/hero"
 {
-	Properties
+Properties
 	{
-		_Outline ("OutlineWidth", Range(0, 0.5)) =  0.1
-		_OutlineColor ("OutlineColor", Color) = (1, 1, 1, 1)
-
-
 		_Color ("Color Tint", Color) = (1, 1, 1, 1)
 		_MainTex ("Main Tex", 2D) = "white" {}
-		_LightTex ("Light Tex", 2D) = "white" {}
+
+		_NormalMap ("Normal Map", 2D) = "white" {}
 
 		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
+
+		_SpecularSizeTex("SpecularSizeTex", 2D) = "white" {}
+		_SpecularAreaTex("SpecularAreaTex", 2D) = "white" {}
+
 
 		_WrapDiffuse("WrapDiffuse",  Range(0, 1)) = 0.5
 		_ShadeEdge0("ShadeEdge0",  Range(0, 1)) = 0.925
@@ -51,7 +55,10 @@ Shader "BenHuai/MiaoBian2"
 			
 			fixed4 _Color;
 			sampler2D _MainTex;
-			sampler2D _LightTex;
+			sampler2D _SpecularSizeTex;
+			sampler2D _SpecularAreaTex;
+			sampler2D _NormalMap;
+
 			float4 _MainTex_ST;
 
 			float _WrapDiffuse, _ShadeEdge0, _ShadeEdge1;
@@ -71,6 +78,7 @@ Shader "BenHuai/MiaoBian2"
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 texcoord : TEXCOORD0;
+				float4 tangent : TANGENT;
 			}; 
 			
 			struct v2f {
@@ -78,7 +86,9 @@ Shader "BenHuai/MiaoBian2"
 				float3 worldNormal : NORMAL;
 				float2 uv : TEXCOORD0;
 				float3 viewDir : TEXCOORD1;
-				SHADOW_COORDS(2)
+				float3 tangentWorld : TEXCOORD2;
+				float3 binormalWorld : TEXCOORD3;
+				SHADOW_COORDS(4)
 			};
 			
 			v2f vert (a2v v) {
@@ -90,6 +100,8 @@ Shader "BenHuai/MiaoBian2"
 				// o.viewDir = UnityWorldSpaceViewDir(mul(unity_ObjectToWorld, v.vertex));
 				//deprecated
 				o.viewDir = WorldSpaceViewDir(v.vertex);
+				o.tangentWorld = normalize(mul(unity_ObjectToWorld, half4(half3(v.tangent.xyz), 0)));
+				o.binormalWorld = normalize(cross (o.worldNormal, o.tangentWorld) * v.tangent.w);
 				
 				TRANSFER_SHADOW(o);
 				
@@ -98,102 +110,55 @@ Shader "BenHuai/MiaoBian2"
 			
 			float4 frag(v2f i) : SV_Target { 
 				half4 color = tex2D(_MainTex, i.uv) * _Color;
-				float4 imgTex = tex2D(_LightTex, i.uv);
-				float3 normal = normalize(i.worldNormal);
+				// normal in tangent space
+				fixed3 norm	= UnpackNormal(tex2D(_NormalMap, i.uv));
+
+				// float3 normal = normalize(i.worldNormal);
+				float3x3 TBNMatrixTranspose = float3x3
+				(
+					i.tangentWorld,
+					i.binormalWorld,
+					i.worldNormal
+				);
+				float3 normal = normalize(mul(norm, TBNMatrixTranspose));
+
+
 				float3 viewDir = normalize(i.viewDir);
 
 				// float ndotl = max(0, dot( normal,  _WorldSpaceLightPos0 ));
 				float ndotl = dot( normal,  _WorldSpaceLightPos0 );
 
 
-				float wrapLambert = (ndotl * _WrapDiffuse + 1 - _WrapDiffuse) + imgTex.g;
+				float wrapLambert = (ndotl * _WrapDiffuse + 1 - _WrapDiffuse) ; //+ imgTex.g;
 				float shadow = SHADOW_ATTENUATION(i);
 				float shadowStep = smoothstep(_ShadeEdge0, _ShadeEdge1, wrapLambert * shadow);
 
 				half4 diffuse = lerp(_AmbientColor, _LightColor0, shadowStep);
 
-				float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
-				float ndoth = dot(normal, halfVector);
-				float specularIntensity = pow(ndoth, _Glossiness) * imgTex.r;
-				float specularRange = step(_SpecularRange, specularIntensity + imgTex.b);
-				half4 specular = specularRange * _SpecularColor;
+				// float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
+				// float ndoth = dot(normal, halfVector);
+				// float specularIntensity = pow(ndoth, _Glossiness) * tex2D(_SpecularAreaTex, i.uv);
+				// float specularRange = step(_SpecularRange, specularIntensity + tex2D(_SpecularSizeTex, i.uv));
+				// half4 specular = specularRange * _SpecularColor;
 
-				float rimDot = pow(1 - dot(viewDir, normal), _RimThreshold);
+				float rimDot = pow(1 - saturate(dot(viewDir, normal)), _RimThreshold);
 				float rimIntensity = rimDot;
 				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
 				half4 rim = rimIntensity * _RimColor;
+
+				// add rim mask
 
 				
 				// return  (diffuse + specular) * color;
 				// return diffuse * color;
 				// return rim * color;
-				return (diffuse + specular + rim) * color;
+				// return (diffuse + specular + rim) * color;
+				return (diffuse + rim ) * color;
+				// return color;
 			}
 			
-			ENDCG
-		}
-
-		Pass
-		{
-			Tags {
-				"LightMode" = "ForwardBase"
-			}
-
-			Cull Front
-
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			
-			#pragma multi_compile_base
-			
-			#include "UnityCG.cginc"
-
-
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float4 vertColor: Color;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
-			};
-
-			struct v2f
-			{
-				float4 pos : SV_POSITION;
-			};
-
-			half _Outline;
-			half4 _OutlineColor;
-			
-			v2f vert (appdata v)
-			{
-				v2f o;
-				UNITY_INITIALIZE_OUTPUT(v2f, o);
-				float4 pos = UnityObjectToClipPos(v.vertex);
-				float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.tangent.xyz);
-
-				float3 ndcNormal = normalize(TransformViewToProjection(viewNormal.xyz)) * pos.w;//将法线变换到NDC空间
-
-				float4 nearUpperRight = mul(unity_CameraInvProjection, float4(1, 1, UNITY_NEAR_CLIP_VALUE, _ProjectionParams.y)); //将近裁剪面右上角位置的顶点变换到观察空间
-
-				float aspect = abs(nearUpperRight.y / nearUpperRight.x);//求得屏幕宽高比
-
-				ndcNormal.x *= aspect;
-
-				pos.xy += 0.01 * _Outline * ndcNormal.xy;
-
-				o.pos = pos;
-				return o;
-
-				
-			}
-			
-			fixed4 frag (v2f i) : SV_Target
-			{
-				return _OutlineColor;
-			}
 			ENDCG
 		}
 	}
+	FallBack "Diffuse"
 }

@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Hair
-  m_Shader: {fileID: 4800000, guid: 9540258d6c7aa2848bbbd962f374d210, type: 3}
+  m_Name: legLegs
+  m_Shader: {fileID: 4800000, guid: abb21abfb6cd76c42a86f0105b17d544, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,15 +39,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f0538e6635b8c3942819be77142a597f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8265d65e777b4184f86871c0005434b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 812779dc47d722749842099c1ade78c6, type: 3}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: f49a8c0ffc2131240a2b8141dae55324, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -58,11 +58,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ShiftMap:
-        m_Texture: {fileID: 2800000, guid: c3a453771406050448927694e8a6842b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BumpDepth: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -74,19 +71,13 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PrimaryShift: -0.99
-    - _SecondaryShift: 0.2
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1.62
     - _SpecularHighlights: 1
-    - _SpecularMultiplier: 82.2
-    - _SpecularMultiplier2: 98.43
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Wrap: 0.25
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0.9044118, g: 0.26600346, b: 0.26600346, a: 1}
-    - _SpecularColor2: {r: 0.66176474, g: 0.5741782, b: 0.5741782, a: 1}
+    - _MainColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

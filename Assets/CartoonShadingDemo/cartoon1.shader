@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
-Shader "ilong/cartoon1"
+Shader "zilong/cartoon1"
 {
 
 	Properties

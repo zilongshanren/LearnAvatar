@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Hair
-  m_Shader: {fileID: 4800000, guid: 9540258d6c7aa2848bbbd962f374d210, type: 3}
-  m_ShaderKeywords: 
+  m_Name: head
+  m_Shader: {fileID: 4800000, guid: abb21abfb6cd76c42a86f0105b17d544, type: 3}
+  m_ShaderKeywords: NORMAL_ACCURATE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -34,20 +34,48 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DetailTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DiffuseWarp:
+        m_Texture: {fileID: 2800000, guid: 5f3d351e1166aa040bd467656a4baa0b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FresnelColorWarp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FresnelWarp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f0538e6635b8c3942819be77142a597f, type: 3}
+        m_Texture: {fileID: 2800000, guid: a3be354245251524eadfd2bd17e4d622, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask2:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 68f7967f2da92fd459a037ecb85bfa2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 812779dc47d722749842099c1ade78c6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 68f7967f2da92fd459a037ecb85bfa2b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -58,11 +86,9 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ShiftMap:
-        m_Texture: {fileID: 2800000, guid: c3a453771406050448927694e8a6842b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AmbientScale: 0.566
+    - _BumpDepth: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -72,21 +98,27 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NormalAccurate: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PrimaryShift: -0.99
-    - _SecondaryShift: 0.2
+    - _RimLightScale: 5.43
+    - _SelfIllumStrength: 0.234
+    - _ShadeEdge0: 0.925
+    - _ShadeEdge1: 1
+    - _Smoothness: 0.538
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1.62
+    - _SpecularExponent: 32
     - _SpecularHighlights: 1
-    - _SpecularMultiplier: 82.2
-    - _SpecularMultiplier2: 98.43
+    - _SpecularScale: 11
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Wrap: 0.25
+    - _WrapDiffuse: 0.5
     - _ZWrite: 1
     m_Colors:
+    - _AmbientColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 0.9044118, g: 0.26600346, b: 0.26600346, a: 1}
-    - _SpecularColor2: {r: 0.66176474, g: 0.5741782, b: 0.5741782, a: 1}
+    - _MainColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _RimLightColor: {r: 0.9485294, g: 0.2929282, b: 0.2929282, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

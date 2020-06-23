@@ -164,7 +164,7 @@ Shader "zilong/Hair"
 
 				
 				fixed3 bump = UnpackNormal(tex2D(_NormalTex, i.uv.zw));
-				//Nornal to tangent space, equal  mul(TBN, bump);
+				//Nornal to tangent space, equal  mul(TBN, normal) / mul(normal , TBNTranspose);
 				fixed3 worldNormal = normalize(half3(dot(i.TtoW0.xyz, bump), dot(i.TtoW1.xyz, bump), dot(i.TtoW2.xyz, bump)));
 
 				float3 worldPos = float3(i.TtoW0.w, i.TtoW1.w, i.TtoW2.w);
