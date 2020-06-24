@@ -170,7 +170,10 @@ Shader "BenHuai/MiaoBian2"
 			{
 				v2f o;
 				UNITY_INITIALIZE_OUTPUT(v2f, o);
+
+				// in view space
 				float4 pos = UnityObjectToClipPos(v.vertex);
+
 				float3 viewNormal = mul((float3x3)UNITY_MATRIX_IT_MV, v.tangent.xyz);
 
 				float3 ndcNormal = normalize(TransformViewToProjection(viewNormal.xyz)) * pos.w;//将法线变换到NDC空间
@@ -184,6 +187,27 @@ Shader "BenHuai/MiaoBian2"
 				pos.xy += 0.01 * _Outline * ndcNormal.xy;
 
 				o.pos = pos;
+
+				//in world space
+				// float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+				// float3 worldNormal = normalize(mul(v.normal, unity_WorldToObject));
+
+				// worldPos.xy  = worldPos.xy + worldNormal.xy * _Outline * 0.05;
+				// o.pos = mul(UNITY_MATRIX_VP, worldPos);
+
+
+				// //in clip space
+				// o.pos = UnityObjectToClipPos(v.vertex.xyz);
+				// float3 normal = normalize(mul((float3x3)UNITY_MATRIX_IT_MV, v.normal));
+				// float2 offset = TransformViewToProjection(normal.xy);
+				// o.pos.xy += offset * o.pos.z * _Outline * 0.5;
+
+				// // 乘以0.01 主要是因为object space单位比较大
+				// float4 pos = v.vertex;
+				// pos.xyz += v.normal * _Outline * 0.01;
+				// pos = UnityObjectToClipPos(pos);
+				// o.pos = pos;
+
 				return o;
 
 				
